@@ -70,6 +70,25 @@ A TextRun contains as many words as possible until the formatting changes.
 | `This is a **bold** word.` | Mixed | 3             |
 
 
+type TextRun = {
+  text: string;
+  styles: {
+    bold?: boolean;
+    italic?: boolean;
+    underline?: boolean;
+    // more...
+  };
+};
+
+type Paragraph = {
+  children: TextRun[];
+  align?: "left" | "center" | "right";
+};
+
+type Document = Paragraph[];
+
+
+
 In documents without much styling, TextRuns can span full sentences or paragraphs.
 
 In stylized documents (like marketing copy or design-heavy text), TextRuns can be as short as a single word or even a single character (e.g., for custom coloring or emphasis).
@@ -96,3 +115,11 @@ Formatting markers (like bold, italic, etc.)
 Punctuation
 
 You might scan text from the DOM and turn it into a list of "runs" or "nodes" you track in memory.
+
+
+
+-------
+do you think I will have to scan the entire document every time we update the external state?
+
+You don’t rebuild the whole document.
+You just update the specific part that changed — e.g., a single TextRun or paragraph.

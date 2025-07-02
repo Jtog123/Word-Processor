@@ -16,6 +16,30 @@ achieve a 1-inch margin by using the m-24 class for margins on all sides, or mx-
 enable page breaks approx 450 words
 allow for jibbberish to count as words
 
+How do i feed a word in from my frontend DOM to my backend?
+
+We aree going to have to collect all input from the front end and sencd it back as chunks?
+use a setTimeout that syncs the backend state to the frontend state - sync()
+
+THe cat is FAT, and the dog is SKINNY
+
+The cat is
+FAT
+and the dog is
+SKINNY
+
+flow -> 
+user types in words -> 
+front end state shows changes
+  We are tracking keyboardinput (onInput and selectionChange) the front end, appending all key presses into a TextRun string, until we form a paragraph
+  Once we form a paragraph (Identify paragraph spacing), we push this textRun into the Paragraph type
+  We can then push the paragraph to the Document
+
+If we click the bold or italic or underline button we immediatley start updating backend state?
+
+
+Every 10s, backend state takes note or where the cursor is,
+
 */
 
 /*
@@ -29,7 +53,7 @@ export default function Home() {
 
   const [wordCount, setWordCount] = useState(0)
 
-  async function handleSpaceBar(e: React.KeyboardEvent<HTMLDivElement>) {
+  function handleSpaceBar(e: React.KeyboardEvent<HTMLDivElement>) {
 
     if(e.key == " " || e.code == "Space" || e.keyCode == 32) {
       console.log(e);
@@ -37,6 +61,21 @@ export default function Home() {
       //setWordCount(wordCount => wordCount + 1);
     }
 
+  }
+  /*
+  When we highlist text returns a Selection object, or when we move the Caret we can monitor its placement on the DOM
+  VERY USEFUL
+
+  document.onselectionchange = () => {
+    console.log(document.getSelection());
+  };
+  document.addEventListener("selectionchange", () => {
+  console.log(document.getSelection());
+  });
+  */
+
+  function handleInput() {
+    console.log("Handling the input")
   }
 
   return (
@@ -48,7 +87,10 @@ export default function Home() {
           contentEditable="true"
           suppressContentEditableWarning={true}
           className="processor h-10/12 w-4/12 p-24 bg-gray-200 text-black overflow-auto"
-          onKeyUp={(e) => handleSpaceBar(e)}        
+          onKeyUp={(e) => handleSpaceBar(e)} 
+          onInput={handleInput}
+          
+                 
       >
 
       </div>
